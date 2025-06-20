@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mahmut Sibal Blog</title>
+    <style>
+:root {
+        --bg-primary: #0a0e17;
+        --bg-secondary: #121a29;
+        --text-primary: #e2e8f0;
+        --text-secondary: #a0aec0;
+        --accent: #00ff9d;
+        --accent-secondary: #00ccff;
+        --danger: #ff3e3e;
+    }
+    
+    body {
+        font-family: 'Fira Code', monospace;
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+        line-height: 1.6;
+    }
+    
+    .terminal-window {
+        border: 1px solid var(--accent);
+        border-radius: 8px;
+        background-color: var(--bg-secondary);
+        box-shadow: 0 0 15px rgba(0, 255, 157, 0.2);
+    }
+    
+    .terminal-header {
+        border-bottom: 1px solid var(--accent);
+        padding: 8px 16px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .terminal-circle {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin-right: 8px;
+    }
+    
+    .terminal-title {
+        font-family: 'Space Mono', monospace;
+        color: var(--accent);
+    }
+    
+    .terminal-content {
+        padding: 16px;
+    }
+    
+    .command-line::before {
+        content: "$ ";
+        color: var(--accent);
+    }
+    
+    .cursor {
+        display: inline-block;
+        width: 10px;
+        height: 18px;
+        background-color: var(--accent);
+        animation: blink 1s infinite;
+        vertical-align: middle;
+    }
+    
+    @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+    }
+    
+    .btn-primary {
+        background-color: var(--accent);
+        color: var(--bg-primary);
+        transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+        background-color: transparent;
+        color: var(--accent);
+        box-shadow: 0 0 10px var(--accent);
+    }
+    
+    .nav-link {
+        position: relative;
+        color: var(--text-secondary);
+        transition: color 0.3s ease;
+    }
+    
+    .nav-link:hover {
+        color: var(--accent);
+    }
+    
+    .nav-link::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -4px;
+        left: 0;
+        background-color: var(--accent);
+        transition: width 0.3s ease;
+    }
+    
+    .nav-link:hover::after {
+        width: 100%;
+    }
+    
+    .card {
+        border: 1px solid rgba(0, 255, 157, 0.2);
+        background-color: var(--bg-secondary);
+        transition: all 0.3s ease;
+    }
+    
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 255, 157, 0.3);
+    }
+    
+    .skill-tag {
+        background-color: rgba(0, 255, 157, 0.1);
+        color: var(--accent);
+        border: 1px solid var(--accent);
+    }
+    
+    .photo-upload-area {
+        border: 2px dashed var(--accent);
+        transition: all 0.3s ease;
+    }
+    
+    .photo-upload-area:hover {
+        background-color: rgba(0, 255, 157, 0.05);
+    }
+    
+    .matrix-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        opacity: 0.05;
+    }
+    
+    .blog-post {
+        border-left: 3px solid var(--accent);
+    }
+    
+    .social-icon {
+        color: var(--text-secondary);
+        transition: all 0.3s ease;
+    }
+    
+    .social-icon:hover {
+        color: var(--accent);
+        transform: translateY(-3px);
+    }
+    
+    .typing-effect {
+        overflow: hidden;
+        white-space: nowrap;
+        border-right: 3px solid var(--accent);
+        animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+    }
+    
+    @keyframes typing {
+        from { width: 0 }
+        to { width: 100% }
+    }
+    
+    @keyframes blink-caret {
+        from, to { border-color: transparent }
+        50% { border-color: var(--accent) }
+    }
+</style>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<header class="py-4 px-6 md:px-12 lg:px-20">
+    <nav class="flex flex-col md:flex-row justify-between items-center">
+        <div class="flex items-center mb-4 md:mb-0">
+            <div class="text-2xl font-bold mr-2">
+                <span class="text-white">&lt;</span>
+                <span class="text-[var(--accent)]">MS</span>
+                <span class="text-white">/&gt;</span>
+            </div>
+            <div class="hidden md:block ml-4 text-sm text-[var(--text-secondary)]">
+                <span class="command-line">whoami</span>
+                <span class="ml-2 text-[var(--accent)]">mahmut_sibal</span>
+            </div>
+        </div>
+        
+        <ul class="flex space-x-6 text-sm">
+            <li><a href="#home" class="nav-link">HOME</a></li>
+            <li><a href="#about" class="nav-link">ABOUT</a></li>
+            <li><a href="#skills" class="nav-link">SKILLS</a></li>
+            <li><a href="#blog" class="nav-link">BLOG</a></li>
+            <li><a href="#contact" class="nav-link">CONTACT</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <!-- Hero Section -->
+    <section id="home" class="py-16 px-6 md:px-12 lg:px-20">
+        <div class="max-w-5xl mx-auto">
+            <div class="terminal-window">
+                <div class="terminal-header">
+                    <div class="terminal-circle bg-red-500"></div>
+                    <div class="terminal-circle bg-yellow-500 ml-2"></div>
+                    <div class="terminal-circle bg-green-500 ml-2"></div>
+                    <div class="ml-4 terminal-title">mahmut@sibal:~</div>
+                </div>
+                <div class="terminal-content">
+                    <p class="command-line">echo "Hello World!"</p>
+                    <p class="mt-2 text-2xl md:text-4xl font-bold">
+                        I'm <span class="text-[var(--accent)]">Mahmut Sibal</span>
+                    </p>
+                    <p class="mt-2 text-xl md:text-2xl text-[var(--text-secondary)]">
+                        Computer Programmer & Developer
+                    </p>
+                    <p class="mt-4 text-[var(--text-secondary)] max-w-2xl">
+                        Exploring the digital frontier through code. Currently studying Computer Programming at Dicle University Technical Sciences Vocational School.
+                    </p>
+                    <div class="mt-6 flex flex-wrap gap-3">
+                        <span class="skill-tag px-3 py-1 rounded-full text-xs">HTML</span>
+                        <span class="skill-tag px-3 py-1 rounded-full text-xs">CSS</span>
+                        <span class="skill-tag px-3 py-1 rounded-full text-xs">JavaScript</span>
+                        <span class="skill-tag px-3 py-1 rounded-full text-xs">PHP</span>
+                        <span class="skill-tag px-3 py-1 rounded-full text-xs">MySQL</span>
+                        <span class="skill-tag px-3 py-1 rounded-full text-xs">MSSQL</span>
+                        <span class="skill-tag px-3 py-1 rounded-full text-xs">Oracle</span>
+                        <span class="skill-tag px-3 py-1 rounded-full text-xs">C#</span>
+                        <span class="skill-tag px-3 py-1 rounded-full text-xs">C++</span>
+                        <span class="skill-tag px-3 py-1 rounded-full text-xs">C</span>
+                        <span class="skill-tag px-3 py-1 rounded-full text-xs">Python</span>
+                        <span class="skill-tag px-3 py-1 rounded-full text-xs">Java</span>
+                    </div>
+                    <div class="mt-8">
+                        <a href="#contact" class="btn-primary px-6 py-3 rounded-md font-medium inline-block">
+                            <i class="fas fa-terminal mr-2"></i> Get in touch
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- About Section -->
+    <section id="about" class="py-16 px-6 md:px-12 lg:px-20 bg-[var(--bg-secondary)]">
+    <div class="max-w-5xl mx-auto">
+        <h2 class="text-2xl font-bold mb-8">
+            <span class="text-[var(--accent)]">&lt;</span>
+            About Me
+            <span class="text-[var(--accent)]">/&gt;</span>
+        </h2>
+        <div class="flex flex-col md:flex-row gap-8">
+            <!-- Fotoğraf -->
+            <div class="md:w-1/3 flex justify-center items-start">
+                <div class="relative group">
+                    <img src="ben.jpg" alt="Benim Fotoğrafım"
+                        class="rounded-full w-48 h-48 object-cover border-4 border-[var(--accent)] shadow-xl transition-transform duration-300 group-hover:scale-105 group-hover:shadow-2xl" />
+                    <div class="absolute inset-0 rounded-full border-4 border-[var(--accent-secondary)] opacity-30 animate-pulse pointer-events-none"></div>
+                </div>
+            </div>
+            <!-- Hakkımda Bilgi -->
+            <div class="md:w-2/3 flex flex-col justify-center">
+    <p class="text-lg mb-4 text-[var(--text-secondary)]">
+        Hi! I am a developer who is passionate about technology and software. I love building projects with modern web technologies, learning new things, and sharing what I learn.
+    </p>
+    <p class="text-md text-[var(--text-secondary)]">
+        I have experience in both frontend and backend development. I am a team player, solution-oriented, and always open to self-improvement. In my free time, I write blog posts and experiment with
+        </div>
+    </div>
+<!-- Skills Section -->
+    <section id="skills" class="py-16 px-6 md:px-12 lg:px-20">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-2xl font-bold mb-8">
+                <span class="text-[var(--accent)]">&lt;</span>
+                Skills
+                <span class="text-[var(--accent)]">/&gt;</span>
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Web Development -->
+                <div class="card rounded-lg p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-globe text-[var(--accent)] text-2xl mr-3"></i>
+                        <h3 class="text-xl font-bold">Web Development</h3>
+                    </div>
+                    <div class="space-y-3">
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm">HTML</span>
+                                <span class="text-xs text-[var(--accent)]">90%</span>
+                            </div>
+                            <div class="h-2 bg-gray-700 rounded-full">
+                                <div class="h-full bg-[var(--accent)] rounded-full" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm">CSS</span>
+                                <span class="text-xs text-[var(--accent)]">85%</span>
+                            </div>
+                            <div class="h-2 bg-gray-700 rounded-full">
+                                <div class="h-full bg-[var(--accent)] rounded-full" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm">JavaScript</span>
+                                <span class="text-xs text-[var(--accent)]">80%</span>
+                            </div>
+                            <div class="h-2 bg-gray-700 rounded-full">
+                                <div class="h-full bg-[var(--accent)] rounded-full" style="width: 80%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm">PHP</span>
+                                <span class="text-xs text-[var(--accent)]">75%</span>
+                            </div>
+                            <div class="h-2 bg-gray-700 rounded-full">
+                                <div class="h-full bg-[var(--accent)] rounded-full" style="width: 75%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Database -->
+                <div class="card rounded-lg p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-database text-[var(--accent)] text-2xl mr-3"></i>
+                        <h3 class="text-xl font-bold">Database</h3>
+                    </div>
+                    <div class="space-y-3">
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm">MySQL</span>
+                                <span class="text-xs text-[var(--accent)]">85%</span>
+                            </div>
+                            <div class="h-2 bg-gray-700 rounded-full">
+                                <div class="h-full bg-[var(--accent)] rounded-full" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm">MSSQL</span>
+                                <span class="text-xs text-[var(--accent)]">80%</span>
+                            </div>
+                            <div class="h-2 bg-gray-700 rounded-full">
+                                <div class="h-full bg-[var(--accent)] rounded-full" style="width: 80%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm">Oracle</span>
+                                <span class="text-xs text-[var(--accent)]">75%</span>
+                            </div>
+                            <div class="h-2 bg-gray-700 rounded-full">
+                                <div class="h-full bg-[var(--accent)] rounded-full" style="width: 75%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Programming Languages -->
+                <div class="card rounded-lg p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-code text-[var(--accent)] text-2xl mr-3"></i>
+                        <h3 class="text-xl font-bold">Programming</h3>
+                    </div>
+                    <div class="space-y-3">
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm">C#</span>
+                                <span class="text-xs text-[var(--accent)]">85%</span>
+                            </div>
+                            <div class="h-2 bg-gray-700 rounded-full">
+                                <div class="h-full bg-[var(--accent)] rounded-full" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm">Python</span>
+                                <span class="text-xs text-[var(--accent)]">80%</span>
+                            </div>
+                            <div class="h-2 bg-gray-700 rounded-full">
+                                <div class="h-full bg-[var(--accent)] rounded-full" style="width: 80%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm">Java</span>
+                                <span class="text-xs text-[var(--accent)]">75%</span>
+                            </div>
+                            <div class="h-2 bg-gray-700 rounded-full">
+                                <div class="h-full bg-[var(--accent)] rounded-full" style="width: 75%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm">C/C++</span>
+                                <span class="text-xs text-[var(--accent)]">70%</span>
+                            </div>
+                            <div class="h-2 bg-gray-700 rounded-full">
+                                <div class="h-full bg-[var(--accent)] rounded-full" style="width: 70%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Blog Section -->
+    <section id="blog" class="py-16 px-6 md:px-12 lg:px-20 bg-[var(--bg-secondary)]">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-2xl font-bold mb-8">
+                <span class="text-[var(--accent)]">&lt;</span>
+                Blog
+                <span class="text-[var(--accent)]">/&gt;</span>
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Blog Post 1 -->
+                <div class="card rounded-lg overflow-hidden">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs text-[var(--text-secondary)]">
+                                <i class="far fa-calendar-alt mr-1"></i> June 15, 2023
+                            </span>
+                            <span class="skill-tag px-2 py-1 rounded-full text-xs">Cybersecurity</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Exploring the Dark Corners: Ethical Hacking Fundamentals</h3>
+                        <p class="text-[var(--text-secondary)] mb-4">
+                            In today's interconnected world, understanding the mindset of attackers is crucial for building robust defenses. This post explores the ethical side of hacking and how it contributes to better security practices.
+                        </p>
+                        <div class="flex justify-between items-center">
+                            <button class="text-[var(--accent)] hover:underline text-sm" onclick="expandBlogPost(1)">
+                                Read more <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                            <span class="text-xs text-[var(--text-secondary)]">
+                                <i class="far fa-eye mr-1"></i> 245 views
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Blog Post 2 -->
+                <div class="card rounded-lg overflow-hidden">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs text-[var(--text-secondary)]">
+                                <i class="far fa-calendar-alt mr-1"></i> May 28, 2023
+                            </span>
+                            <span class="skill-tag px-2 py-1 rounded-full text-xs">Programming</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">The Art of Clean Code: Principles Every Developer Should Know</h3>
+                        <p class="text-[var(--text-secondary)] mb-4">
+                            Writing clean, maintainable code is a skill that separates good programmers from great ones. In this post, I share key principles and practices that have improved my coding efficiency and collaboration.
+                        </p>
+                        <div class="flex justify-between items-center">
+                            <button class="text-[var(--accent)] hover:underline text-sm" onclick="expandBlogPost(2)">
+                                Read more <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                            <span class="text-xs text-[var(--text-secondary)]">
+                                <i class="far fa-eye mr-1"></i> 189 views
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Full Blog Post Modal -->
+            <div id="blog-modal" class="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center hidden p-4">
+                <div class="bg-[var(--bg-secondary)] rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+                    <div class="terminal-header sticky top-0 z-10">
+                        <div class="terminal-circle bg-red-500" onclick="closeBlogModal()"></div>
+                        <div class="terminal-circle bg-yellow-500 ml-2"></div>
+                        <div class="terminal-circle bg-green-500 ml-2"></div>
+                        <div class="ml-4 terminal-title" id="blog-modal-title">blog_post.md</div>
+                    </div>
+                    <div class="p-6" id="blog-modal-content">
+                        <!-- Content will be inserted here -->
+                    </div>
+                    <div class="p-6 border-t border-gray-700">
+                        <div class="flex justify-between items-center">
+                            <button onclick="closeBlogModal()" class="btn-primary px-4 py-2 rounded-md text-sm">
+                                <i class="fas fa-times mr-2"></i> Close
+                            </button>
+                            <div class="flex space-x-4">
+                                <button class="social-icon">
+                                    <i class="far fa-heart"></i> <span class="text-xs ml-1">42</span>
+                                </button>
+                                <button class="social-icon">
+                                    <i class="far fa-comment"></i> <span class="text-xs ml-1">12</span>
+                                </button>
+                                <button class="social-icon">
+                                    <i class="far fa-share-square"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 px-6 md:px-12 lg:px-20">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-2xl font-bold mb-8">
+                <span class="text-[var(--accent)]">&lt;</span>
+                Contact
+                <span class="text-[var(--accent)]">/&gt;</span>
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="card rounded-lg p-6">
+                    <h3 class="text-xl font-bold mb-6">Get In Touch</h3
+                    >
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div class="text-[var(--accent)] mr-4">
+                                <i class="fas fa-envelope text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">Email</h4>
+                                <p class="text-[var(--text-secondary)]">mahmutsibal9@gmail.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="text-[var(--accent)] mr-4">
+                                <i class="fas fa-phone-alt text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">Phone</h4>
+                                <p class="text-[var(--text-secondary)]">+90 536 898 3855</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="text-[var(--accent)] mr-4">
+                                <i class="fas fa-map-marker-alt text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">Location</h4>
+                                <p class="text-[var(--text-secondary)]">Diyarbakır, Turkey</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card rounded-lg p-6">
+                    <h3 class="text-xl font-bold mb-6">Send Message</h3>
+                    
+                    <form id="contact-form">
+                        <div class="mb-4">
+                            <label for="name" class="block text-sm font-medium mb-2">Name</label>
+                            <input type="text" id="name" class="w-full bg-[var(--bg-primary)] border border-gray-700 rounded-md px-4 py-2 focus:outline-none focus:border-[var(--accent)]" placeholder="Your name">
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="email" class="block text-sm font-medium mb-2">Email</label>
+                            <input type="email" id="email" class="w-full bg-[var(--bg-primary)] border border-gray-700 rounded-md px-4 py-2 focus:outline-none focus:border-[var(--accent)]" placeholder="Your email">
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="subject" class="block text-sm font-medium mb-2">Subject</label>
+                            <input type="text" id="subject" class="w-full bg-[var(--bg-primary)] border border-gray-700 rounded-md px-4 py-2 focus:outline-none focus:border-[var(--accent)]" placeholder="Message subject">
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="message" class="block text-sm font-medium mb-2">Message</label>
+                            <textarea id="message" rows="5" class="w-full bg-[var(--bg-primary)] border border-gray-700 rounded-md px-4 py-2 focus:outline-none focus:border-[var(--accent)]" placeholder="Your message"></textarea>
+                        </div>
+                        
+                        <div class="flex justify-end">
+                            <button type="submit" class="btn-primary px-6 py-2 rounded-md">
+                                <i class="fas fa-paper-plane mr-2"></i> Send Message
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="py-8 px-6 md:px-12 lg:px-20 bg-[var(--bg-secondary)] border-t border-gray-800">
+    <div class="max-w-5xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-6 md:mb-0">
+                <div class="text-2xl font-bold">
+                    <span class="text-white">&lt;</span>
+                    <span class="text-[var(--accent)]">MS</span>
+                    <span class="text-white">/&gt;</span>
+                </div>
+                <p class="text-sm text-[var(--text-secondary)] mt-2">Computer Programmer & Developer</p>
+            </div>
+            
+            <div class="text-center md:text-right">
+                <p class="text-sm text-[var(--text-secondary)]">
+                    &copy; 2023 Mahmut Sibal. All rights reserved.
+                </p>
+                <p class="text-xs text-gray-600 mt-1">
+                    <span class="command-line text-xs">echo "Made with <span class="text-red-500">❤</span> and code"</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Success Message Toast -->
+<div id="success-toast" class="fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-md shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 flex items-center">
+    <i class="fas fa-check-circle mr-2"></i>
+    <span id="toast-message">Message sent successfully!</span>
+</div>
+
+<script>
+    // Matrix background effect
+    const canvas = document.getElementById('matrix-bg');
+    const ctx = canvas.getContext('2d');
+    
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+    const characters = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789';
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    
+    const drops = [];
+    for (let i = 0; i < columns; i++) {
+        drops[i] = 1;
+    }
+    
+    function drawMatrix() {
+        ctx.fillStyle = 'rgba(10, 14, 23, 0.05)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        ctx.fillStyle = '#00ff9d';
+        ctx.font = `${fontSize}px monospace`;
+        
+        for (let i = 0; i < drops.length; i++) {
+            const text = characters.charAt(Math.floor(Math.random() * characters.length));
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+            
+            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                drops[i] = 0;
+            }
+            
+            drops[i]++;
+        }
+    }
+    
+    setInterval(drawMatrix, 50);
+    
+    // Handle window resize
+    window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    });
+    
+    // Photo upload functionality
+    document.getElementById('photo-upload').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const profileImage = document.getElementById('profile-image');
+                profileImage.src = e.target.result;
+                profileImage.classList.remove('hidden');
+                document.getElementById('default-icon').classList.add('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+    
+    // Blog photo upload functionality
+    document.getElementById('blog-photo-upload').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const blogImage = document.getElementById('blog-image');
+                blogImage.src = e.target.result;
+                blogImage.classList.remove('hidden');
+                document.getElementById('blog-default-icon').classList.add('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+    
+    // Blog post functionality
+    const blogPosts = [
+        {
+            id: 1,
+            title: "Exploring the Dark Corners: Ethical Hacking Fundamentals",
+            category: "Cybersecurity",
+            date: "June 15, 2023",
+            views: 245,
+            content: `
+                <h1 class="text-2xl font-bold mb-4">Exploring the Dark Corners: Ethical Hacking Fundamentals</h1>
+                
+                <div class="text-[var(--text-secondary)] mb-6">
+                    <span><i class="far fa-calendar-alt mr-1"></i> June 15, 2023</span>
+                    <span class="mx-3">|</span>
+                    <span><i class="far fa-eye mr-1"></i> 245 views</span>
+                    <span class="mx-3">|</span>
+                    <span class="skill-tag px-2 py-1 rounded-full text-xs">Cybersecurity</span>
+                </div>
+                
+                <div class="blog-post pl-4 mb-6">
+                    <p class="mb-4">
+                        In today's interconnected digital landscape, cybersecurity has become more critical than ever. As organizations continue to digitize their operations and move to cloud-based solutions, the attack surface for malicious actors grows exponentially. This is where ethical hacking comes into play – a practice that involves identifying vulnerabilities in systems before they can be exploited by those with harmful intentions.
+                    </p>
+                    
+                    <h2 class="text-xl font-bold mt-6 mb-3">What is Ethical Hacking?</h2>
+                    <p class="mb-4">
+                        Ethical hacking, also known as penetration testing or white-hat hacking, is the practice of legally and methodically attempting to penetrate computer systems, networks, or applications to find security vulnerabilities that a malicious hacker could potentially exploit. Unlike their black-hat counterparts, ethical hackers operate with explicit permission from system owners and use their skills to improve security rather than compromise it.
+                    </p>
+                    
+                    <h2 class="text-xl font-bold mt-6 mb-3">The Ethical Hacker's Toolkit</h2>
+                    <p class="mb-4">
+                        A proficient ethical hacker needs to be well-versed in various tools and techniques. Some essential components of an ethical hacker's toolkit include:
+                    </p>
+                    
+                    <ul class="list-disc pl-6 mb-4 space-y-2">
+                        <li><span class="text-[var(--accent)]">Reconnaissance tools:</span> Gathering information about the target system is the first step in any penetration test. Tools like Nmap, Shodan, and Maltego help in mapping networks and discovering potential entry points.</li>
+                        <li><span class="text-[var(--accent)]">Vulnerability scanners:</span> Tools like Nessus, OpenVAS, and Qualys help identify known vulnerabilities in systems and applications.</li>
+                        <li><span class="text-[var(--accent)]">Exploitation frameworks:</span> Metasploit is perhaps the most well-known framework that helps in developing, testing, and executing exploit code.</li>
+                        <li><span class="text-[var(--accent)]">Password crackers:</span> Tools like John the Ripper and Hashcat are used to test the strength of password policies.</li>
+                        <li><span class="text-[var(--accent)]">Wireless analysis tools:</span> Aircrack-ng and Wireshark help in analyzing and testing wireless network security.</li>
+                    </ul>
+                    
+                    <h2 class="text-xl font-bold mt-6 mb-3">The Ethical Hacking Process</h2>
+                    <p class="mb-4">
+                        A structured approach to ethical hacking typically follows these phases:
+                    </p>
+                    
+                    <ol class="list-decimal pl-6 mb-4 space-y-2">
+                        <li><span class="text-[var(--accent)]">Planning and Reconnaissance:</span> Gathering information about the target system, including network topology, IP addresses, and potential entry points.</li>
+                        <li><span class="text-[var(--accent)]">Scanning:</span> Using various tools to identify open ports, services running, and potential vulnerabilities.</li>
+                        <li><span class="text-[var(--accent)]">Gaining Access:</span> Attempting to exploit identified vulnerabilities to gain access to the system.</li>
+                        <li><span class="text-[var(--accent)]">Maintaining Access:</span> Testing if the access can be maintained for an extended period, which could indicate a serious security flaw.</li>
+                        <li><span class="text-[var(--accent)]">Analysis and Reporting:</span> Documenting findings and providing recommendations for remediation.</li>
+                    </ol>
+                    
+                    <h2 class="text-xl font-bold mt-6 mb-3">Ethical Considerations</h2>
+                    <p class="mb-4">
+                        As the name suggests, ethical hacking comes with a set of moral responsibilities. Ethical hackers must:
+                    </p>
+                    
+                    <ul class="list-disc pl-6 mb-4 space-y-2">
+                        <li>Obtain explicit permission before testing any system</li>
+                        <li>Respect privacy and confidentiality of data encountered during testing</li>
+                        <li>Report all findings accurately and comprehensively</li>
+                        <li>Avoid causing damage or disruption to systems during testing</li>
+                        <li>Stay within the scope of the agreed-upon testing parameters</li>
+                    </ul>
+                    
+                    <h2 class="text-xl font-bold mt-6 mb-3">Conclusion</h2>
+                    <p>
+                        In an era where cyber threats are constantly evolving, ethical hacking serves as a proactive defense mechanism. By thinking like attackers but acting with integrity, ethical hackers help organizations strengthen their security posture and protect valuable assets. As we continue to rely more heavily on digital infrastructure, the role of ethical hackers will only grow in importance, making it a fascinating and rewarding field for those interested in cybersecurity.
+                    </p>
+                </div>
+                
+                <div class="flex items-center mt-8 pt-4 border-t border-gray-700">
+                    <div class="mr-4">
+                        <div class="w-10 h-10 rounded-full bg-[var(--accent)] flex items-center justify-center text-[var(--bg-primary)] font-bold">MS</div>
+                    </div>
+                    <div>
+                        <p class="font-bold">Mahmut Sibal</p>
+                        <p class="text-sm text-[var(--text-secondary)]">Computer Programmer & Cybersecurity Enthusiast</p>
+                    </div>
+                </div>
+            `
+        },
+        {
+            id: 2,
+            title: "The Art of Clean Code: Principles Every Developer Should Know",
+            category: "Programming",
+            date: "May 28, 2023",
+            views: 189,
+            content: `
+                <h1 class="text-2xl font-bold mb-4">The Art of Clean Code: Principles Every Developer Should Know</h1>
+                
+                <div class="text-[var(--text-secondary)] mb-6">
+                    <span><i class="far fa-calendar-alt mr-1"></i> May 28, 2023</span>
+                    <span class="mx-3">|</span>
+                    <span><i class="far fa-eye mr-1"></i> 189 views</span>
+                    <span class="mx-3">|</span>
+                    <span class="skill-tag px-2 py-1 rounded-full text-xs">Programming</span>
+                </div>
+                
+                <div class="blog-post pl-4 mb-6">
+                    <p class="mb-4">
+                        In the world of software development, writing code that works is just the beginning. Creating code that is clean, maintainable, and efficient is what separates good programmers from great ones. Throughout my journey as a developer, I've learned that clean code isn't just about aesthetics—it's about creating software that can evolve, scale, and be understood by others (including your future self).
+                    </p>
+                    
+                    <h2 class="text-xl font-bold mt-6 mb-3">Why Clean Code Matters</h2>
+                    <p class="mb-4">
+                        We've all encountered codebases that make us cringe—sprawling functions, cryptic variable names, and tangled logic that seems impossible to untangle. Working with such code is not just frustrating; it's expensive. Studies suggest that developers spend far more time reading code than writing it. Clean code reduces cognitive load, speeds up development, and minimizes the introduction of bugs.
+                    </p>
+                    
+                    <h2 class="text-xl font-bold mt-6 mb-3">Core Principles of Clean Code</h2>
+                    
+                    <h3 class="text-lg font-semibold mt-4 mb-2">1. Meaningful Names</h3>
+                    <p class="mb-4">
+                        Names should reveal intent. Whether you're naming variables, functions, classes, or modules, choose names that clearly communicate what they represent or do.
+                    </p>
+                    
+                    <div class="bg-[var(--bg-primary)] p-4 rounded-md mb-4">
+                        <p class="text-[var(--text-secondary)] mb-2">// Poor naming</p>
+                        <pre class="text-[var(--accent)]">int d; // elapsed time in days</pre>
+                        
+                        <p class="text-[var(--text-secondary)] mt-4 mb-2">// Better naming</p>
+                        <pre class="text-[var(--accent)]">int elapsedTimeInDays;</pre>
+                    </div>
+                    
+                    <h3 class="text-lg font-semibold mt-4 mb-2">2. Functions Should Do One Thing</h3>
+                    <p class="mb-4">
+                        Functions should be small and focused on a single responsibility. This makes them easier to understand, test, and reuse. If a function is doing multiple things, consider breaking it down into smaller, more focused functions.
+                    </p>
+                    
+                    <h3 class="text-lg font-semibold mt-4 mb-2">3. Comments Are a Last Resort</h3>
+                    <p class="mb-4">
+                        Good code should be self-explanatory. While comments can be helpful for explaining why something is done a certain way, they shouldn't be needed to explain what the code is doing. If you find yourself writing a comment to explain what a piece of code does, consider refactoring the code to make it clearer.
+                    </p>
+                    
+                    <h3 class="text-lg font-semibold mt-4 mb-2">4. DRY (Don't Repeat Yourself)</h3>
+                    <p class="mb-4">
+                        Duplication is the enemy of maintainable code. When you find yourself writing similar code in multiple places, it's a sign that you should abstract that functionality into a reusable component.
+                    </p>
+                    
+                    <h3 class="text-lg font-semibold mt-4 mb-2">5. Error Handling Is Important</h3>
+                    <p class="mb-4">
+                        Error handling shouldn't obscure the main logic of your code. Separate error handling from the main flow when possible, and make sure error messages are informative and actionable.
+                    </p>
+                    
+                    <h2 class="text-xl font-bold mt-6 mb-3">Practical Tips for Writing Clean Code</h2>
+                    
+                    <ul class="list-disc pl-6 mb-4 space-y-2">
+                        <li><span class="text-[var(--accent)]">Use consistent formatting:</span> Adopt a style guide and stick to it. Consistent indentation, spacing, and naming conventions make code more readable.</li>
+                        <li><span class="text-[var(--accent)]">Refactor regularly:</span> Don't be afraid to revisit and improve existing code. Small, incremental improvements add up over time.</li>
+                        <li><span class="text-[var(--accent)]">Write tests:</span> Tests not only verify that your code works but also serve as documentation and make refactoring safer.</li>
+                        <li><span class="text-[var(--accent)]">Keep functions and classes small:</span> If a function or class is getting too large, it's probably trying to do too much and should be split up.</li>
+                        <li><span class="text-[var(--accent)]">Use meaningful abstractions:</span> Create abstractions that hide complexity and expose only what's necessary.</li>
+                    </ul>
+                    
+                    <h2 class="text-xl font-bold mt-6 mb-3">Tools That Help</h2>
+                    <p class="mb-4">
+                        Many tools can help you maintain clean code:
+                    </p>
+                    
+                    <ul class="list-disc pl-6 mb-4 space-y-2">
+                        <li><span class="text-[var(--accent)]">Linters:</span> Tools like ESLint, Pylint, or ReSharper can automatically detect style issues and potential bugs.</li>
+                        <li><span class="text-[var(--accent)]">Formatters:</span> Tools like Prettier or Black can automatically format your code according to predefined rules.</li>
+                        <li><span class="text-[var(--accent)]">Code analyzers:</span> Tools like SonarQube can identify code smells, bugs, and security vulnerabilities.</li>
+                        <li><span class="text-[var(--accent)]">Version control:</span> Git and similar tools help track changes and collaborate with others.</li>
+                    </ul>
+                    
+                    <h2 class="text-xl font-bold mt-6 mb-3">Conclusion</h2>
+                    <p>
+                        Writing clean code is not just about following a set of rules—it's about adopting a mindset that values clarity, simplicity, and maintainability. It's about writing code that not only works today but can be understood and modified tomorrow. As Robert C. Martin (Uncle Bob) puts it, "Clean code always looks like it was written by someone who cares." Be that someone who cares, and your future self (and colleagues) will thank you.
+                    </p>
+                </div>
+                
+                <div class="flex items-center mt-8 pt-4 border-t border-gray-700">
+                    <div class="mr-4">
+                        <div class="w-10 h-10 rounded-full bg-[var(--accent)] flex items-center justify-center text-[var(--bg-primary)] font-bold">MS</div>
+                    </div>
+                    <div>
+                        <p class="font-bold">Mahmut Sibal</p>
+                        <p class="text-sm text-[var(--text-secondary)]">Computer Programmer & Clean Code Advocate</p>
+                    </div>
+                </div>
+            `
+        }
+    ];
+    
+    function expandBlogPost(id) {
+        const post = blogPosts.find(post => post.id === id);
+        if (post) {
+            document.getElementById('blog-modal-title').textContent = post.title;
+            document.getElementById('blog-modal-content').innerHTML = post.content;
+            document.getElementById('blog-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+    
+    function closeBlogModal() {
+        document.getElementById('blog-modal').classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+    
+    // Contact form submission
+    document.getElementById('contact-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // In a real application, you would send the form data to a server
+        // For this demo, we'll just show a success message
+        
+        const toast = document.getElementById('success-toast');
+        toast.querySelector('#toast-message').textContent = 'Message sent successfully!';
+        
+        // Show the toast
+        toast.classList.remove('translate-y-20', 'opacity-0');
+        
+        // Hide the toast after 3 seconds
+        setTimeout(() => {
+            toast.classList.add('translate-y-20', 'opacity-0');
+        }, 3000);
+        
+        // Reset the form
+        this.reset();
+    });
+    
+    // Blog post submission
+    document.getElementById('publish-post').addEventListener('click', function() {
+        const title = document.getElementById('post-title').value;
+        const category = document.getElementById('post-category').value;
+        const content = document.getElementById('post-content').value;
+        
+        if (title && content) {
+            // In a real application, you would send the post data to a server
+            // For this demo, we'll just show a success message
+            
+            const toast = document.getElementById('success-toast');
+            toast.querySelector('#toast-message').textContent = 'Blog post published successfully!';
+            
+            // Show the toast
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            
+            // Hide the toast after 3 seconds
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+            
+            // Reset the form
+            document.getElementById('post-title').value = '';
+            document.getElementById('post-content').value = '';
+            document.getElementById('blog-image').classList.add('hidden');
+            document.getElementById('blog-default-icon').classList.remove('hidden');
+        } else {
+            alert('Please fill in all required fields');
+        }
+    });
+    
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            
+            if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+</script>
+</body>
+</html>
